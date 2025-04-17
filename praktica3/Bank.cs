@@ -48,7 +48,7 @@ namespace praktica3
             var jsonString = JsonSerializer.Serialize(dictionary,options);
             File.WriteAllText(BankAccounts.file, jsonString);
         }
-        public static void CreateAccountOfClient(Dictionary<string, List<BankAccounts>> dictionary)//работает, но хер знает как
+        public static void CreateAccountOfClient(Dictionary<string, List<BankAccounts>> dictionary)//работает
         {
             Console.WriteLine("Введите ФИО клиента");
             string FIO = Console.ReadLine();
@@ -77,7 +77,7 @@ namespace praktica3
                 Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping //настройки зписи json формат русского языка
             };
             Console.WriteLine($"Новый счет клиента {FIO} успешно создан");
-            var jsonString = JsonSerializer.Serialize(dictionary, options);
+            var jsonString = JsonSerializer.Serialize(dictionary, options);//обновление списка в json(новая сериализация)
             File.WriteAllText(BankAccounts.file, jsonString);
         }
         public static void PrintInfoOfClients(Dictionary<string, List<BankAccounts>> dictionary)

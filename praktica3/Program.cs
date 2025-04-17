@@ -9,6 +9,7 @@
             while (true)
             {
                 Console.WriteLine("Выбирите действие:\n" +
+                "0. gregergherh" +
                 "1. Создания клиента \n" +
                 "2. Создание счета для уже существующего клиента\n" +
                 "3. Вывод всех клиентов с данными по их счетам\n" +
@@ -24,6 +25,8 @@
                 }
                 switch (a)
                 {
+                    case 0: BankAccounts.WithdrawalFromTheAccount();break;
+                    case 10:BankAccounts.AddingFundsToAccount();break;
                     case 1: Bank.CreateClient(clients); break;
                     case 2: Bank.CreateAccountOfClient(clients); break;
                     case 3: Bank.PrintInfoOfClients(clients); break;
