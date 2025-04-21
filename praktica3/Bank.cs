@@ -25,14 +25,14 @@ namespace praktica3
             var accounts = new List<BankAccounts>();//создаем новый список счетов
             Console.WriteLine("Введите ФИО");
             string FIO = Console.ReadLine();
-            Console.WriteLine("Выберите тип счета:\n1)Дебетовый(0р)\n2)Кредитный - 200000р"); //через свич выбираем какой счет создать
+            Console.WriteLine("Выберите тип счета:\n1)Дебетовый(0)\n2)Кредитный - 200000"); //через свич выбираем какой счет создать
             switch (int.Parse(Console.ReadLine()))
             {
                 case 1:
-                    var account = new BankAccounts(Account.Debit,0); //через конструктор создается счет со свойством типа и баланса
+                    var account = new BankAccounts(Account.Debit,0m); //через конструктор создается счет со свойством типа и баланса
                     accounts.Add(account); break; //добавляется в лист
                 case 2:
-                    var account1 = new BankAccounts(Account.Credit, 200000);
+                    var account1 = new BankAccounts(Account.Credit, 200000m);
                     accounts.Add(account1); break;
                 default: Console.WriteLine("Ошибка ввода"); return;
             }
@@ -116,7 +116,7 @@ namespace praktica3
                 return;
             }
             Console.WriteLine($"Сумма на каждом счету клиента {FIO}:");
-            int count = 0;
+            decimal count = 0;
             foreach (var key in dictionary[FIO])
             {
                 count += key.Summ;
@@ -127,11 +127,11 @@ namespace praktica3
         }//работает
         public static void PrintSummOfClients(Dictionary<string, List<BankAccounts>> dictionary)
         {
-            int allCountSumm = 0;
+            decimal allCountSumm = 0;
             foreach (var key in dictionary)
             {
                 Console.Write($"{key.Key}; Счета: \n");
-                int count = 0;
+                decimal count = 0;
                 foreach (var value in key.Value)
                 {
                     count += value.Summ;

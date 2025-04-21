@@ -1,4 +1,5 @@
-﻿using System.Threading.Channels;
+﻿using System.Globalization;
+using System.Threading.Channels;
 
 namespace praktica3
 {
@@ -17,10 +18,23 @@ namespace praktica3
                 {
                     Console.WriteLine("Ошибка ввода, попробуйте снова");
                 }
+
                 switch (a)
                 {
                     case 1:
-                        Console.WriteLine("Выбирите действие:\n1)Пополнение счета\n2)Сянтие со счета");
+                        Console.WriteLine("Введите ФИО Клиента");
+                        string FIO = Console.ReadLine();
+                        if (!clients.ContainsKey(FIO))
+                        {
+                            Console.WriteLine("Клиент не найден");
+                            return;
+                        }
+                        Console.WriteLine($"{FIO},Счета:");
+                        foreach(var acc in clients[FIO])
+                        {
+                            Console.WriteLine($"{acc.Type} - {acc.Summ}р");
+                        }
+                        Console.WriteLine("Выбирите действие:\n1)Пополнение счета\n2)Снятие со счета");
                         int c;
                         while (!int.TryParse(Console.ReadLine(), out c))
                         {
@@ -28,8 +42,8 @@ namespace praktica3
                         }
                         switch (c)
                         {
-                            case 1: BankAccounts.AddingFundsToAccount();break;
-                                case 2: BankAccounts.WithdrawalFromTheAccount();break;
+                            case 1: BankAccounts.AddingFundsToAccount(FIO);break;
+                                case 2: BankAccounts.WithdrawalFromTheAccount(FIO);break;
                             default: Console.WriteLine("Ошибка ввода"); break;
                         }
                         break;

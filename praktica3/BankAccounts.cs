@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -12,13 +13,14 @@ namespace praktica3
 {
     internal class BankAccounts
     {
-        private static Dictionary<string, List<BankAccounts>> clients;
+
+        private protected static Dictionary<string, List<BankAccounts>> clients { get; private set; }
 
         public static string file = "BankSave.json";
 
         public Account Type { get; set; }
-        public int Summ { get; set; }
-        public BankAccounts(Account type, int summ)
+        public decimal Summ { get; set; }
+        public BankAccounts(Account type, decimal summ)
         {
             this.Type = type;
             this.Summ = summ;
@@ -68,18 +70,18 @@ namespace praktica3
                 var list = new List<BankAccounts>();
                 if (rnd.Next(0, 3) == 0)
                 {
-                    var bankAccounts1 = new BankAccounts(Account.Debit, rnd.Next(0, 70000));
+                    var bankAccounts1 = new BankAccounts(Account.Debit, (decimal)rnd.Next(0, 70000));
                     list.Add(bankAccounts1);
                 }
                 else if (rnd.Next(0, 3) == 1)
                 {
-                    var bankAccounts1 = new BankAccounts(Account.Debit, rnd.Next(0, 70000));
-                    var bankAccounts2 = new BankAccounts(Account.Credit, rnd.Next(20000, 200000));
+                    var bankAccounts1 = new BankAccounts(Account.Debit, (decimal)rnd.Next(0, 70000));
+                    var bankAccounts2 = new BankAccounts(Account.Credit, (decimal)rnd.Next(20000, 200000));
                     list.Add(bankAccounts1); list.Add(bankAccounts2);
                 }
                 else
                 {
-                    var bankAccounts2 = new BankAccounts(Account.Credit, rnd.Next(20000, 200000));
+                    var bankAccounts2 = new BankAccounts(Account.Credit, (decimal)rnd.Next(20000, 200000));
                     list.Add(bankAccounts2);
                 }
                 return list;
@@ -103,21 +105,14 @@ namespace praktica3
             var jsonString = JsonSerializer.Serialize(clients, options);
             File.WriteAllText(BankAccounts.file, jsonString);
         }
-        public static void AddingFundsToAccount()
+        public static void AddingFundsToAccount(string FIO)
         {
-            Console.WriteLine("Введите ФИО Клиента");
-            string FIO = Console.ReadLine();
-            if (!clients.ContainsKey(FIO))
-            {
-                Console.WriteLine("Клиент не найден");
-                return;
-            }
             Console.WriteLine("Выбирите счет для пополнения:");
             var clientAcc = clients[FIO];
             foreach (var type1 in clientAcc)
             {
                 int cnt = 1;
-                Console.WriteLine($"{cnt}.{type1.Type} - {type1.Summ}"); cnt++;
+                Console.WriteLine($"{cnt}.{type1.Type} - {type1.Summ}р"); cnt++;
             }
             int type;
             while ((!int.TryParse(Console.ReadLine(), out type)))
@@ -125,8 +120,8 @@ namespace praktica3
                 Console.WriteLine("Ошибка ввода");
             }
             Console.WriteLine("Введите сумму для пополнения:");
-            int summ = 0;
-            while (!int.TryParse(Console.ReadLine(), out summ))
+            decimal summ = 0;
+            while (!decimal.TryParse(Console.ReadLine(), out summ))
             {
                 Console.WriteLine("Ошибка ввода");
             }
@@ -134,21 +129,14 @@ namespace praktica3
             Console.WriteLine("Операция выполнена");
             Save();
         }
-        public static void WithdrawalFromTheAccount()
+        public static void WithdrawalFromTheAccount(string FIO)
         {
-            Console.WriteLine("Введите ФИО Клиента");
-            string FIO = Console.ReadLine();
-            if (!clients.ContainsKey(FIO))
-            {
-                Console.WriteLine("Клиент не найден");
-                return;
-            }
             Console.WriteLine("Выбирите счет для снятия:");
             var clientAcc = clients[FIO];
             foreach (var type1 in clientAcc)
             {
                 int cnt = 1;
-                Console.WriteLine($"{cnt}.{type1.Type} - {type1.Summ}"); cnt++;
+                Console.WriteLine($"{cnt}.{type1.Type} - {type1.Summ}р"); cnt++;
             }
             int type;
             while ((!int.TryParse(Console.ReadLine(), out type)))
@@ -156,12 +144,12 @@ namespace praktica3
                 Console.WriteLine("Ошибка ввода");
             }
             Console.WriteLine("Введите сумму для снятия:");
-            int summ = 0;
-            while (!int.TryParse(Console.ReadLine(), out summ))
+            decimal summ = 0;
+            while (!decimal.TryParse(Console.ReadLine(), out summ))
             {
                 Console.WriteLine("Ошибка ввода");
             }
-            if(clientAcc[type - 1].Summ > summ)
+            if(clientAcc[type - 1].Summ >= summ)
             {
                 clientAcc[type - 1].Summ -= summ;
                 Console.WriteLine("Операция выполнена");
