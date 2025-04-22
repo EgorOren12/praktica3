@@ -19,8 +19,8 @@ namespace praktica3
         public static string file = "BankSave.json";
 
         public Account Type { get; set; }
-        public decimal Summ { get; set; }
-        public BankAccounts(Account type, decimal summ)
+        public int Summ { get; set; }
+        public BankAccounts(Account type, int summ)
         {
             this.Type = type;
             this.Summ = summ;
@@ -70,18 +70,18 @@ namespace praktica3
                 var list = new List<BankAccounts>();
                 if (rnd.Next(0, 3) == 0)
                 {
-                    var bankAccounts1 = new BankAccounts(Account.Debit, (decimal)rnd.Next(0, 70000));
+                    var bankAccounts1 = new BankAccounts(Account.Debit, rnd.Next(0, 70000));
                     list.Add(bankAccounts1);
                 }
                 else if (rnd.Next(0, 3) == 1)
                 {
-                    var bankAccounts1 = new BankAccounts(Account.Debit, (decimal)rnd.Next(0, 70000));
-                    var bankAccounts2 = new BankAccounts(Account.Credit, (decimal)rnd.Next(20000, 200000));
+                    var bankAccounts1 = new BankAccounts(Account.Debit, rnd.Next(0, 70000));
+                    var bankAccounts2 = new BankAccounts(Account.Credit, rnd.Next(20000, 200000));
                     list.Add(bankAccounts1); list.Add(bankAccounts2);
                 }
                 else
                 {
-                    var bankAccounts2 = new BankAccounts(Account.Credit, (decimal)rnd.Next(20000, 200000));
+                    var bankAccounts2 = new BankAccounts(Account.Credit, rnd.Next(20000, 200000));
                     list.Add(bankAccounts2);
                 }
                 return list;
@@ -120,8 +120,8 @@ namespace praktica3
                 Console.WriteLine("Ошибка ввода");
             }
             Console.WriteLine("Введите сумму для пополнения:");
-            decimal summ = 0;
-            while (!decimal.TryParse(Console.ReadLine(), out summ))
+            int summ = 0;
+            while (!int.TryParse(Console.ReadLine(), out summ))
             {
                 Console.WriteLine("Ошибка ввода");
             }
@@ -144,8 +144,8 @@ namespace praktica3
                 Console.WriteLine("Ошибка ввода");
             }
             Console.WriteLine("Введите сумму для снятия:");
-            decimal summ = 0;
-            while (!decimal.TryParse(Console.ReadLine(), out summ))
+            int summ = 0;
+            while (!int.TryParse(Console.ReadLine(), out summ))
             {
                 Console.WriteLine("Ошибка ввода");
             }

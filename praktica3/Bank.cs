@@ -29,10 +29,10 @@ namespace praktica3
             switch (int.Parse(Console.ReadLine()))
             {
                 case 1:
-                    var account = new BankAccounts(Account.Debit,0m); //через конструктор создается счет со свойством типа и баланса
+                    var account = new BankAccounts(Account.Debit,0); //через конструктор создается счет со свойством типа и баланса
                     accounts.Add(account); break; //добавляется в лист
                 case 2:
-                    var account1 = new BankAccounts(Account.Credit, 200000m);
+                    var account1 = new BankAccounts(Account.Credit, 200000);
                     accounts.Add(account1); break;
                 default: Console.WriteLine("Ошибка ввода"); return;
             }
@@ -116,7 +116,7 @@ namespace praktica3
                 return;
             }
             Console.WriteLine($"Сумма на каждом счету клиента {FIO}:");
-            decimal count = 0;
+            int count = 0;
             foreach (var key in dictionary[FIO])
             {
                 count += key.Summ;
@@ -127,11 +127,11 @@ namespace praktica3
         }//работает
         public static void PrintSummOfClients(Dictionary<string, List<BankAccounts>> dictionary)
         {
-            decimal allCountSumm = 0;
+            int allCountSumm = 0;
             foreach (var key in dictionary)
             {
                 Console.Write($"{key.Key}; Счета: \n");
-                decimal count = 0;
+                int count = 0;
                 foreach (var value in key.Value)
                 {
                     count += value.Summ;
